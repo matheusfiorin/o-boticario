@@ -7,7 +7,38 @@ require('./functions')();
 router.get("/", (req, res) => {
   model.sells.findAll()
     .then(sells => {
+      if (!sells) {
+        return generateErrorResponse(404, req.url, "Not found", [`No sells where found.`], res);
+      }
       res.status(200).json(sells || []);
+    })
+    .catch(err => {
+      console.error({
+        err
+      });
+      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+    })
+});
+
+router.get("/:id", (req, res) => {
+  const {
+    id
+  } = req.params;
+
+  if (!id) {
+    return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
+  }
+
+  model.sells.findOne({
+      where: {
+        id
+      }
+    })
+    .then(sells => {
+      if (!sells) {
+        return generateErrorResponse(404, req.url, "Not found", [`Sell with ID ${id} not found.`], res);
+      }
+      res.status(200).json(sells || {});
     })
     .catch(err => {
       console.error({
