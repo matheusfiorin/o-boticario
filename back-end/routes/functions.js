@@ -114,4 +114,7 @@ module.exports = function () {
 
     return await promise;
   }
+  this.generateRandomNumber = function (max) {
+    return Math.round(Math.random() * max);
+  }
 }

@@ -149,7 +149,7 @@ router.put("/:id", async (req, res) => {
       res.status(200).json({
         code: 200,
         message: "Updated.",
-        id
+        id: parseInt(id)
       });
     })
     .catch(err => {

@@ -1,12 +1,15 @@
 require('dotenv').config(); // Allow the reading of .env
 
+process.env.PORT = 3000;
+
 // Dependencies
 const request = require('supertest');
-const app = require('../app');
+const app = require('../../app');
 
 jest.setTimeout(30000);
 
 afterAll(done => {
+  process.env.PORT = 3000;
   app.close(done);
 });
 
