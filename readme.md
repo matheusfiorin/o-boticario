@@ -7,6 +7,8 @@ This is a project focused on the problem solving for the resellers of "O Boticar
 
 ## Getting Started
 
+### Back-End
+
 First, you need to have a MySQL server ready-to-use (preferably `5.7.26`).
 
 Once stated, run the `start.sql` script from the `/db` folder on your MySQL server.
