@@ -1,0 +1,14 @@
+{
+  "name": "back-end",
+  "version": "0.0.1",
+  "description": "The back-end task",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "backend;nodejs"
+  ],
+  "author": "Matheus Barão Fiorin",
+  "license": "ISC"
+}
