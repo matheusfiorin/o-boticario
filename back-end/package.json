@@ -4,11 +4,25 @@
   "description": "The back-end task",
   "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest"
   },
   "keywords": [
     "backend;nodejs"
   ],
   "author": "Matheus Barão Fiorin",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "clean-css": "^4.1.11",
+    "compression": "^1.7.4",
+    "constantinople": "^3.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "jade": "^1.11.0",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "uglify-js": "^2.8.29"
+  }
 }
