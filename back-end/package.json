@@ -4,7 +4,9 @@
   "description": "The back-end task",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "unit": "jest --testPathPattern=test\\.js$",
+    "integration": "jest --testPathPattern=spec\\.js$"
   },
   "keywords": [
     "backend;nodejs"
