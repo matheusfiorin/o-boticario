@@ -1,3 +1,5 @@
+const model = require('../models/index');
+
 module.exports = function () {
   this.isValidCPF = function (strCPF) {
     var Soma;
@@ -45,4 +47,71 @@ module.exports = function () {
       causes
     });
   };
+  this.isAbleToChange = async function (id) {
+    let promise = new Promise(async (resolve, reject) => {
+      let correctStatus = await model.statuses.findOne({
+          where: {
+            description: "Em validação"
+          }
+        })
+        .then(status => {
+          return status.id || 0
+        })
+        .catch(err => {
+          console.error({
+            err
+          });
+          reject(err);
+        });
+
+      model.sells.findOne({
+          where: {
+            id
+          }
+        })
+        .then(sell => {
+          if (sell === null) {
+            return resolve(false);
+          }
+
+          if (sell.statusid !== correctStatus) {
+            return resolve(false);
+          }
+
+          return resolve(true);
+        })
+        .catch(err => {
+          console.error({
+            err
+          });
+          return resolve(false);
+        });
+    });
+
+    return await promise;
+  }
+  this.sellExist = async function (id) {
+    let promise = new Promise(async (resolve, reject) => {
+      await model.sells.findOne({
+          where: {
+            id
+          }
+        })
+        .then(sell => {
+          if (!sell) {
+            return resolve(false);
+          }
+
+          return resolve(true);
+        })
+        .catch(err => {
+          console.error({
+            err
+          });
+          return resolve(false);
+        });
+    });
+
+    return await promise;
+  }
 }
