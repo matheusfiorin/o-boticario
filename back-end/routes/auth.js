@@ -1,5 +1,10 @@
+// Reading .env
+require('dotenv').config();
+
+// Dependencies
 const bcrypt = require('bcrypt');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const model = require('../models/index');
 const router = express.Router();
 
@@ -31,8 +36,13 @@ router.post('/login', (req, res) => {
       if (!bcrypt.compareSync(password, user.password)) {
         return generateErrorResponse(401, req.url, "Unauthorized", ["Wrong password."], res);
       }
+      var token = jwt.sign({
+        id: user.id
+      }, process.env.SECRET, {
+        expiresIn: 300 // expires in 5min
+      });
       res.status(200).json({
-        jwt: "jwt", // TODO
+        jwt: token,
         user_id: user.id
       });
     })

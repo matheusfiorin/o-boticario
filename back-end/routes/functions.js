@@ -1,4 +1,5 @@
 const model = require('../models/index');
+const jwt = require('jsonwebtoken');
 
 module.exports = function () {
   this.isValidCPF = function (strCPF) {
@@ -116,5 +117,17 @@ module.exports = function () {
   }
   this.generateRandomNumber = function (max) {
     return Math.round(Math.random() * max);
+  }
+  this.verifyJWT = function (req, res, next) {
+    var token = req.headers['x-access-token'];
+
+    if (!token) return this.generateErrorResponse(401, req.url, "No token provided.", ["You need to pass the JWT header."], res);
+
+    jwt.verify(token, process.env.SECRET, function (err, decoded) {
+      if (err) return this.generateErrorResponse(500, req.url, "Failed to authenticate token.", ["JWT malformed."], res);
+
+      req.userId = decoded.id;
+      next();
+    });
   }
 }

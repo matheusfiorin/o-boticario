@@ -10,6 +10,8 @@ const express = require("express");
 const logger = require("morgan");
 const path = require("path");
 
+require('./routes/functions')();
+
 const app = express();
 
 // Routes
@@ -62,8 +64,8 @@ app.use(function (req, res, next) {
 
 // Declaring routes
 app.use("/auth", authRouter);
-app.use("/sells", sellsRouter);
-app.use("/cashback", cashbackRouter);
+app.use("/sells", verifyJWT, sellsRouter);
+app.use("/cashback", verifyJWT, cashbackRouter);
 
 // Handling errors on 404
 app.use(function (req, res, next) {
