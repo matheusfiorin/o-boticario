@@ -123,11 +123,17 @@ module.exports = function () {
 
     if (!token) return this.generateErrorResponse(401, req.url, "No token provided.", ["You need to pass the JWT header."], res);
 
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
-      if (err) return this.generateErrorResponse(500, req.url, "Failed to authenticate token.", ["JWT malformed."], res);
+    if (process.env.NODE_ENV !== "test")
+      jwt.verify(token, process.env.SECRET, function (err, decoded) {
+        if (err) return this.generateErrorResponse(500, req.url, "Failed to authenticate token.", ["JWT malformed."], res);
 
-      req.userId = decoded.id;
+        req.userId = decoded.id;
+        next();
+      });
+    else
       next();
-    });
+  }
+  this.withJwtAuthentication = function(request) {
+    return request.set('x-access-token', 'test-jwt-token')
   }
 }
