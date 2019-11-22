@@ -52,7 +52,9 @@ router.post('/register', (req, res) => {
     password
   } = req.body;
 
-  if (!fullname || !cpf || !email || !password) {
+  var noDigitCPF = cpf.replace(/\D+/g, "") || null;
+
+  if (!fullname || !noDigitCPF || !email || !password) {
     return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
   }
 
@@ -60,13 +62,13 @@ router.post('/register', (req, res) => {
     return generateErrorResponse(401, req.url, "Invalid email", ["The email provided isn't a valid email"], res);
   }
 
-  if (!isValidCPF(cpf)) {
+  if (!isValidCPF(noDigitCPF)) {
     return generateErrorResponse(401, req.url, "Invalid CPF", ["The CPF provided isn't a valid CPF"], res);
   }
 
   model.users.findOne({
       where: {
-        cpf
+        cpf: noDigitCPF
       }
     })
     .then(user => {
@@ -78,7 +80,7 @@ router.post('/register', (req, res) => {
 
       model.users.create({
           fullname,
-          cpf,
+          cpf: noDigitCPF,
           email,
           password: encriptedPassword
         })
@@ -89,6 +91,31 @@ router.post('/register', (req, res) => {
             id: response.id
           });
         });
+    })
+    .catch(err => {
+      console.error({
+        err
+      });
+      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  const {
+    id
+  } = req.params;
+
+  model.users.destroy({
+      where: {
+        id
+      }
+    })
+    .then(user => {
+      res.status(200).json({
+        code: 200,
+        message: "Deleted.",
+        id
+      });
     })
     .catch(err => {
       console.error({
