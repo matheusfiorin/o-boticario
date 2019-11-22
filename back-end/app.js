@@ -15,6 +15,7 @@ const app = express();
 // Routes
 const authRouter = require("./routes/auth");
 const sellsRouter = require("./routes/sells");
+const cashbackRouter = require("./routes/cashback");
 
 // Configuring CORS
 app.use(cors());
@@ -62,6 +63,7 @@ app.use(function (req, res, next) {
 // Declaring routes
 app.use("/auth", authRouter);
 app.use("/sells", sellsRouter);
+app.use("/cashback", cashbackRouter);
 
 // Handling errors on 404
 app.use(function (req, res, next) {
