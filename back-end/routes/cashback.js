@@ -15,10 +15,12 @@ router.get("/:userid", (req, res) => {
         id: userid
       }
     })
-    .then(user => {
+    .then(async user => {
       if (!user) {
         return generateErrorResponse(404, req.url, "User not found", ["No user found with this ID"], res);
       }
+
+      var count = await sumCashback(user.id);
 
       request
         .get({
@@ -32,7 +34,7 @@ router.get("/:userid", (req, res) => {
             return generateErrorResponse(apiResponse.statusCode, req.url, "Unknown error", [err, response], res);
           }
           res.status(200).json({
-            credit: apiResponse.body.credit
+            credit: apiResponse.body.credit + count
           });
         });
     })

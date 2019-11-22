@@ -12,7 +12,7 @@ jest.setTimeout(30000);
 describe('Sells routine', () => {
   test('Insert, Update, Get & Delete',
     async (done) => {
-      await withJwtAuthentication(request(app).post('/sells').send(base_sell))
+      await withJwtAuthentication(request(app).post('/sells').send(baseSell))
         .then(async resp => {
           expect(resp.status).toBe(201);
           expect(resp.body.id).not.toBe(null);
@@ -29,13 +29,13 @@ describe('Sells routine', () => {
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
-              expect(resp.body.userid).toBe(base_sell.userid);
-              expect(resp.body.sellid).toBe(base_sell.sellid);
-              expect(resp.body.price).toBe(base_sell.price);
-              expect(new Date(resp.body.date)).toStrictEqual(new Date(base_sell.date));
+              expect(resp.body.userid).toBe(baseSell.userid);
+              expect(resp.body.sellid).toBe(baseSell.sellid);
+              expect(resp.body.price).toBe(baseSell.price);
+              expect(new Date(resp.body.date)).toStrictEqual(new Date(baseSell.date));
             });
 
-          await withJwtAuthentication(request(app).put(`/sells/${SellID}`).send(updated_sell))
+          await withJwtAuthentication(request(app).put(`/sells/${SellID}`).send(updatedSell))
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
@@ -51,10 +51,10 @@ describe('Sells routine', () => {
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
-              expect(resp.body.userid).toBe(updated_sell.userid);
-              expect(resp.body.sellid).toBe(updated_sell.sellid);
-              expect(resp.body.price).toBe(updated_sell.price);
-              expect(new Date(resp.body.date)).toStrictEqual(new Date(updated_sell.date));
+              expect(resp.body.userid).toBe(updatedSell.userid);
+              expect(resp.body.sellid).toBe(updatedSell.sellid);
+              expect(resp.body.price).toBe(updatedSell.price);
+              expect(new Date(resp.body.date)).toStrictEqual(new Date(updatedSell.date));
             });
 
           await withJwtAuthentication(request(app).delete(`/sells/${SellID}`))
@@ -77,14 +77,14 @@ describe('Sells routine', () => {
         });
     });
 
-  const base_sell = {
+  const baseSell = {
     "userid": parseInt(process.env.TEST_USER_ID),
     "sellid": generateRandomNumber(1000).toString(),
     "price": generateRandomNumber(100),
     "date": new Date().toString()
   }
 
-  const updated_sell = {
+  const updatedSell = {
     "userid": parseInt(process.env.TEST_ANOTHER_USER_ID),
     "sellid": generateRandomNumber(1000).toString(),
     "price": generateRandomNumber(100),
