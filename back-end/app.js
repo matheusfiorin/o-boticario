@@ -13,7 +13,7 @@ const path = require("path");
 const app = express();
 
 // Routes
-const mainRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
 
 // Configuring CORS
 app.use(cors());
@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
 });
 
 // Declaring routes
-app.use("/", mainRouter);
+app.use("/auth", authRouter);
 
 // Handling errors on 404
 app.use(function (req, res, next) {
