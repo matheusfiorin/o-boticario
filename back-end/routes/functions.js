@@ -133,7 +133,37 @@ module.exports = function () {
     else
       next();
   }
-  this.withJwtAuthentication = function(request) {
+  this.withJwtAuthentication = function (request) {
     return request.set('x-access-token', 'test-jwt-token')
+  }
+  this.calculateCashback = function (price) {
+    return {
+      cashbackpercentage: price < 1000 ? 10 : price < 1500 ? 15 : 20,
+      cashbackvalue: price * (price < 1000 ? 0.10 : price < 1500 ? 0.15 : 0.20)
+    }
+  }
+  this.sumCashback = async function (userid) {
+    let promise = new Promise((resolve, reject) => {
+      model.sells.findAll({
+          where: {
+            userid
+          },
+          attributes: ['cashbackvalue']
+        })
+        .then(sells => {
+          var sum = (sells || []).reduce(function (accumulator, currentIterator) {
+            return accumulator + currentIterator.cashbackvalue
+          }, 0);
+          resolve(sum);
+        })
+        .catch(err => {
+          console.error({
+            err
+          });
+          reject(err);
+        });
+    });
+
+    return await promise;
   }
 }

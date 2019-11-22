@@ -60,6 +60,11 @@ router.post("/", async (req, res) => {
     return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
   }
 
+  const {
+    cashbackpercentage,
+    cashbackvalue
+  } = calculateCashback(price);
+
   let cpf = await model.users.findOne({
       where: {
         id: userid
@@ -99,6 +104,8 @@ router.post("/", async (req, res) => {
       sellid,
       price,
       date,
+      cashbackpercentage,
+      cashbackvalue
     })
     .then(sell => {
       res.status(201).json({
