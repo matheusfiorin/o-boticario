@@ -1,25 +1,30 @@
 <template>
   <div>
+    <div class="loading" v-if="isLoading">
+      <div class="uil-ring-css" style="transform:scale(0.79);">
+        <div></div>
+      </div>
+    </div>
     <div class="align">
       <div class="grid">
         <div>
-          <h1>Challenge</h1>
-          <h4>Login here</h4>
+          <img src="@/assets/logo.png" alt="Logotipo O Boticário" class="form-image" />
         </div>
-        <form action="https://httpbin.org/post" method="POST" class="form login">
+        <form @submit="handleSubmit" class="form login">
           <div class="form-field">
-            <label for="login-username">
+            <label for="login-email">
               <svg class="icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
               </svg>
-              <span class="hidden">Username</span>
+              <span class="hidden">Email</span>
             </label>
             <input
-              id="login-username"
-              type="text"
-              name="username"
+              v-model="email"
+              id="login-email"
+              type="email"
+              name="email"
               class="form-input"
-              placeholder="Username"
+              placeholder="Email"
               required
             />
           </div>
@@ -29,29 +34,32 @@
               <svg class="icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock" />
               </svg>
-              <span class="hidden">Password</span>
+              <span class="hidden">Senha</span>
             </label>
             <input
+              v-model="password"
               id="login-password"
               type="password"
               name="password"
               class="form-input"
-              placeholder="Password"
+              placeholder="Senha"
               required
             />
           </div>
 
           <div class="form-field">
-            <input type="submit" value="Sign In" />
+            <input type="submit" value="Entrar" />
           </div>
         </form>
 
         <p class="text-center">
-          Not a member?
-          <a href="#">Sign up now</a>
-          <svg class="icon">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right" />
-          </svg>
+          Não tem cadastro?
+          <a @click="signUp">
+            Clique aqui
+            <svg class="icon white-icon">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right" />
+            </svg>
+          </a>
         </p>
       </div>
 
@@ -78,4 +86,87 @@
 
 <style>
 @import "../style/login.css";
+@import "../style/loading.css";
 </style>
+
+<script>
+import config from "@/config";
+import shared from "@/shared";
+import axios from "axios";
+
+export default {
+  data: () => {
+    return {
+      email: null,
+      password: null,
+      isLoading: false
+    };
+  },
+  methods: {
+    signUp() {
+      this.$router.push("/register");
+    },
+    async handleSubmit(e) {
+      e.preventDefault();
+
+      if (!this.email || !this.password) {
+        return this.$swal.fire({
+          title: "Oops...",
+          text: "Algum dos campos está inválido.",
+          type: "error",
+          customClass: {
+            confirmButton: "confirm-button-class"
+          }
+        });
+      }
+
+      if (!this.email.match(shared.emailRegex)) {
+        return this.$swal.fire({
+          title: "Oops...",
+          text: "Verifique seu email.",
+          type: "error",
+          customClass: {
+            confirmButton: "confirm-button-class"
+          }
+        });
+      }
+
+      this.isLoading = true;
+
+      await axios
+        .post(`${config.server}/auth/login`, {
+          email: this.email,
+          password: this.password
+        })
+        .then(response => {
+          if (response.status === 200) {
+            localStorage.setItem("jwt", response.data.jwt);
+            localStorage.setItem("user_id", response.data.user_id);
+            if (localStorage.getItem("jwt") != null) {
+              this.$emit("loggedIn");
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+              } else {
+                this.$router.push("dashboard");
+              }
+            }
+          }
+        })
+        .catch(err => {
+          err = err.response.data;
+          this.$swal.fire({
+            title: "Oops...",
+            text:
+              err.code === 401 ? "Usuário e senha não correspondem." : err.name,
+            type: "error",
+            customClass: {
+              confirmButton: "confirm-button-class"
+            }
+          });
+        });
+
+      this.isLoading = false;
+    }
+  }
+};
+</script>
