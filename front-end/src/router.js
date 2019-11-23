@@ -2,11 +2,11 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 // Page content
-const Login = () => import("@/components/Login");
-const Dashboard = () => import("@/components/Dashboard");
+const Login = () => import("@/pages/Login");
+const Dashboard = () => import("@/pages/Dashboard");
 
 // Fallback page
-const PageNotFound = () => import("@/components/PageNotFound");
+const PageNotFound = () => import("@/pages/PageNotFound");
 
 Vue.use(Router);
 
