@@ -101,12 +101,20 @@ module.exports = (env, argv) => ({
     removeEmptyChunks: true,
     mergeDuplicateChunks: true
   },
+  // devServer: {
+  //   contentBase: './appout',
+  //   host: 'localhost',
+  //   port: 9000,
+  //   historyApiFallback: true, // is it enabled ?
+  //   inline: true
+  // }
   devServer: {
     compress: true,
     host: 'localhost',
     https: true,
     open: true,
     overlay: true,
-    port: 9000
+    port: 9000,
+    historyApiFallback: true,
   }
 });

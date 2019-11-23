@@ -58,14 +58,6 @@ router.beforeEach((to, from, next) => {
           nextUrl: to.fullPath
         }
       });
-    } else if (to.matched.some(record => record.meta.guest)) {
-      if (localStorage.getItem("jwt") == null) {
-        next();
-      } else {
-        next({
-          name: "Dashboard"
-        });
-      }
     } else {
       if (to.matched.some(record => record.meta.is_admin)) {
         next({
@@ -74,6 +66,14 @@ router.beforeEach((to, from, next) => {
       } else {
         next();
       }
+    }
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem("jwt") == null) {
+      next();
+    } else {
+      next({
+        name: "Dashboard"
+      });
     }
   } else {
     next();
