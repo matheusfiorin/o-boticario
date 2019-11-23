@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 // Page content
-const Page1 = () => import("@/components/Page1");
 const Login = () => import("@/components/Login");
+const Page1 = () => import("@/components/Page1");
 
 // Fallback page
 const PageNotFound = () => import("@/components/PageNotFound");
@@ -38,11 +38,6 @@ let router = new Router({
     },
     {
       path: '**',
-      name: 'PageNotFound',
-      component: PageNotFound
-    },
-    {
-      path: '*',
       name: 'PageNotFound',
       component: PageNotFound
     }

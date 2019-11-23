@@ -95,10 +95,17 @@ router.post('/register', (req, res) => {
           password: encriptedPassword
         })
         .then(response => {
+          var token = jwt.sign({
+            id: response.id
+          }, process.env.SECRET, {
+            expiresIn: 300 // expires in 5min
+          });
           res.status(201).json({
             code: 201,
             message: "Created.",
-            id: response.id
+            id: response.id,
+            jwt: token,
+            user_id: response.id
           });
         });
     })

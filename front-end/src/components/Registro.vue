@@ -184,17 +184,13 @@ export default {
 
       this.isLoading = true;
 
-      const url = `/auth/${this.newUser ? "register" : "login"}`;
-
       await axios
-        .post(url, {
-          fullname: this.fullname,
-          cpf: this.cpf,
+        .post("/auth/login", {
           email: this.email,
           password: this.password
         })
         .then(response => {
-          if (response.status === 200 || response.status === 201) {
+          if (response.status === 200) {
             localStorage.setItem("jwt", response.data.jwt);
             localStorage.setItem("user_id", response.data.user_id);
             if (localStorage.getItem("jwt") != null) {
@@ -209,10 +205,10 @@ export default {
         })
         .catch(err => {
           err = err.response.data || err;
-          console.info({ err });
           this.$swal.fire({
             title: "Oops...",
-            text: err.name || err,
+            text:
+              err.code === 401 ? "Usuário e senha não correspondem." : err.name,
             type: "error",
             customClass: {
               confirmButton: "confirm-button-class"
