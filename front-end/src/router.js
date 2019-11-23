@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 // Page content
 const Login = () => import("@/components/Login");
-const Page1 = () => import("@/components/Page1");
+const Dashboard = () => import("@/components/Dashboard");
 
 // Fallback page
 const PageNotFound = () => import("@/components/PageNotFound");
@@ -31,7 +31,7 @@ let router = new Router({
     {
       path: '/dashboard',
       name: 'Dashboard',
-      component: Page1,
+      component: Dashboard,
       meta: {
         requiresAuth: true
       }

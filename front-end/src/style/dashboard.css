@@ -1,0 +1,16 @@
+.header {
+  padding: 20px 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.header-inner {
+  margin: 0 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.menu-icon {
+  height: 35px;
+  margin-top: auto;
+}

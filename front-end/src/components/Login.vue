@@ -129,8 +129,10 @@
 </template>
 
 <style>
-@import "../style/login.css";
-@import "../style/loading.css";
+body {
+  background-color: #2c3338;
+  color: #606468;
+}
 </style>
 
 <script>
