@@ -1,9 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// Containers
+const Header = () => import("@/containers/Header");
+
 // Page content
 const Login = () => import("@/pages/Login");
 const Dashboard = () => import("@/pages/Dashboard");
+const Compras = () => import("@/pages/Compras");
+const Sobre = () => import("@/pages/Sobre");
 
 // Fallback page
 const PageNotFound = () => import("@/pages/PageNotFound");
@@ -12,13 +17,36 @@ Vue.use(Router);
 
 let router = new Router({
   mode: 'history',
-  linkActiveClass: "open active",
+  linkActiveClass: "active",
   scrollBehavior: () => ({
     y: 0
   }),
   routes: [{
       path: '/',
-      redirect: '/dashboard'
+      redirect: '/dashboard',
+      component: Header,
+      children: [{
+        path: "dashboard",
+        name: "Dashboard",
+        component: Dashboard,
+        meta: {
+          requiresAuth: true
+        }
+      }, {
+        path: "compras",
+        name: "Compras",
+        component: Compras,
+        meta: {
+          requiresAuth: true
+        }
+      }, {
+        path: "sobre",
+        name: "Sobre",
+        component: Sobre,
+        meta: {
+          requiresAuth: true
+        }
+      }]
     },
     {
       path: '/login',
@@ -26,14 +54,6 @@ let router = new Router({
       component: Login,
       meta: {
         guest: true
-      }
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
-      meta: {
-        requiresAuth: true
       }
     },
     {

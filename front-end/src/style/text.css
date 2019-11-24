@@ -99,3 +99,9 @@ p {
 *.hidden {
   display: none !important;
 }
+
+.center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
