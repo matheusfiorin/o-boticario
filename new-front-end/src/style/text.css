@@ -1,4 +1,3 @@
-
 /* Anchor */
 
 a {
@@ -58,11 +57,13 @@ input[type='submit'] {
 }
 
 .form-image {
+  width: 100%;
   max-width: 20rem;
   margin-bottom: 12px;
 }
 
 @media(max-width: 360px) {
+
   .form-image,
   .grid {
     max-width: 18rem;
@@ -116,4 +117,117 @@ p {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.flex {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.light-input {
+  background: #eeeeee !important;
+  color: #525252 !important;
+}
+
+.light-input>div>input {
+  background: #eeeeee !important;
+  color: #525252 !important;
+}
+
+.light-label {
+  background: #999999 !important
+}
+
+.light-input:hover,
+.light-input:focus {
+  background: #dadada !important;
+}
+
+.light-input>div>input:hover,
+.light-input>div>input:focus {
+  background: #dadada !important;
+}
+
+.mr-3 {
+  margin: 0 !important;
+  margin-right: 0.8rem !important;
+}
+
+.table-button {
+  background: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #222;
+}
+
+.red-button-solid {
+  border: 1px solid #ca4949;
+}
+
+.blue-button-solid {
+  border: 1px solid #4952ca;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .mr-1 {
+    margin-right: 0.25rem !important;
+  }
+
+  .table-button {
+    width: auto !important;
+    min-width: 60px !important;
+  }
+}
+
+@media (max-width: 805px) {
+  .mr-1 {
+    margin: 0;
+  }
+
+  .table-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .flex {
+    display: grid;
+    justify-content: unset !important;
+  }
+
+  .form-field {
+    margin-top: 1rem !important;
+    width: 100%;
+  }
+
+  .form-field:first-child {
+    margin-top: 0 !important;
+  }
+}
+
+.grey {
+  color: #666;
+}
+
+.login-form {
+  margin-top: 1rem !important;
+  width: auto !important;
+}
+
+.login-form:first-child {
+  margin-top: 1rem !important;
 }

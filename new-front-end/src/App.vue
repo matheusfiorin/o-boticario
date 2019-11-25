@@ -12,4 +12,5 @@
 @import "./style/login.css";
 @import "./style/table.css";
 @import "./style/text.css";
+@import "./style/profile.css";
 </style>

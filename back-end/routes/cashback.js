@@ -17,7 +17,7 @@ router.get("/:userid", (req, res) => {
     })
     .then(async user => {
       if (!user) {
-        return generateErrorResponse(404, req.url, "User not found", ["No user found with this ID"], res);
+        return generateErrorResponse(404, req.url, "Usuário não encontrado", ["Não foi encontrado um usuário com este ID."], res, false);
       }
 
       var count = await sumCashback(user.id);
@@ -31,7 +31,7 @@ router.get("/:userid", (req, res) => {
         }, (err, response, body) => {
           var apiResponse = JSON.parse(body);
           if (err) {
-            return generateErrorResponse(apiResponse.statusCode, req.url, "Unknown error", [err, response], res);
+            return generateErrorResponse(apiResponse.statusCode, req.url, "Erro desconhecido", [err, response], res, false);
           }
           res.status(200).json({
             credit: apiResponse.body.credit + count
@@ -42,7 +42,7 @@ router.get("/:userid", (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     })
 });
 

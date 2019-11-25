@@ -6,8 +6,8 @@ const Header = () => import("@/containers/Header");
 
 // Page content
 const Login = () => import("@/pages/Login");
-const Dashboard = () => import("@/pages/Dashboard");
-const AdicionarCompra = () => import("@/pages/AdicionarCompra");
+const CadastrarCompra = () => import("@/pages/CadastrarCompra");
+const EditarCompra = () => import("@/pages/EditarCompra");
 const Compras = () => import("@/pages/Compras");
 const Sobre = () => import("@/pages/Sobre");
 
@@ -24,17 +24,9 @@ let router = new Router({
   }),
   routes: [{
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/compras',
       component: Header,
       children: [{
-        path: "dashboard",
-        name: "Dashboard",
-        component: Dashboard,
-        meta: {
-          requiresAuth: true,
-          breadcrumb: "Dashboard"
-        }
-      }, {
         path: "compras",
         name: "Compras",
         redirect: "/compras",
@@ -51,12 +43,20 @@ let router = new Router({
             breadcrumb: "Compras"
           },
         }, {
-          path: "adicionar",
-          name: "Adicionar",
-          component: AdicionarCompra,
+          path: "cadastrar",
+          name: "Cadastrar",
+          component: CadastrarCompra,
           meta: {
             requiresAuth: true,
-            breadcrumb: "Adicionar Compras"
+            breadcrumb: "Cadastrar Compra"
+          }
+        }, {
+          path: "editar/:id",
+          name: "Editar",
+          component: EditarCompra,
+          meta: {
+            requiresAuth: true,
+            breadcrumb: "Editar Compra"
           }
         }]
       }, {
@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
     } else {
       if (to.matched.some(record => record.meta.is_admin)) {
         next({
-          name: "Dashboard"
+          name: "Compras"
         });
       } else {
         next();
@@ -108,7 +108,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        name: "Dashboard"
+        name: "Compras"
       });
     }
   } else {

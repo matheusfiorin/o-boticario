@@ -8,11 +8,11 @@
     <div class="align">
       <div class="grid">
         <div>
-          <img src="@/assets/logo.png" alt="Logotipo O Boticário" class="form-image" />
+          <img src="@/assets/logo.png" alt="Logotipo O Boticário" class="form-image login-image" />
         </div>
         <form @submit="handleSubmit" class="form login">
           <div v-if="newUser">
-            <div class="form-field">
+            <div class="form-field login-form">
               <label for="login-cpf">
                 <svg class="icon">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
@@ -33,7 +33,7 @@
               />
             </div>
 
-            <div class="form-field">
+            <div class="form-field login-form">
               <label for="login-fullname">
                 <svg class="icon">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
@@ -53,7 +53,7 @@
             </div>
           </div>
 
-          <div class="form-field">
+          <div class="form-field login-form">
             <label for="login-email">
               <svg class="icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user" />
@@ -73,7 +73,7 @@
             />
           </div>
 
-          <div class="form-field">
+          <div class="form-field login-form">
             <label for="login-password">
               <svg class="icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock" />
@@ -91,7 +91,7 @@
             />
           </div>
 
-          <div class="form-field">
+          <div class="form-field login-form">
             <input type="submit" :value="newUser ? 'Registrar' : 'Entrar'" />
           </div>
         </form>
@@ -196,34 +196,22 @@ export default {
           password: this.password
         })
         .then(response => {
-          if (response.status === 200 || response.status === 201) {
-            localStorage.setItem("jwt", response.data.jwt);
-            localStorage.setItem("user_id", response.data.user_id);
-            if (localStorage.getItem("jwt") != null) {
-              axios.defaults.headers.common[
-                "x-access-token"
-              ] = localStorage.getItem("jwt");
-              this.$emit("loggedIn");
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl);
-              } else {
-                this.$router.push("dashboard");
-              }
+          localStorage.setItem("jwt", response.data.jwt);
+          localStorage.setItem("user_id", response.data.user_id);
+          localStorage.setItem("full_name", response.data.full_name);
+          if (localStorage.getItem("jwt") != null) {
+            axios.defaults.headers.common[
+              "x-access-token"
+            ] = localStorage.getItem("jwt");
+            this.$emit("loggedIn");
+            if (this.$route.params.nextUrl != null) {
+              this.$router.push(this.$route.params.nextUrl);
+            } else {
+              this.$router.push("compras");
             }
           }
         })
-        .catch(err => {
-          err = err.response.data || err;
-          console.info({ err });
-          this.$swal.fire({
-            title: "Oops...",
-            text: err.name || err,
-            type: "error",
-            customClass: {
-              confirmButton: "confirm-button-class"
-            }
-          });
-        });
+        .catch(_ => (this.isLoading = false));
 
       this.isLoading = false;
     }

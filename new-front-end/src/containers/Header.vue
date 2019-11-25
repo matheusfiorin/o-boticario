@@ -13,9 +13,6 @@
         <div class="w100">
           <ul>
             <li>
-              <router-link to="/dashboard">Relatórios</router-link>
-            </li>
-            <li>
               <router-link to="/compras">Compras</router-link>
             </li>
             <li>

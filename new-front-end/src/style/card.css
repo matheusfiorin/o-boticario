@@ -32,6 +32,7 @@ a {
   border-radius: 4px;
   font-size: 0.8rem;
   border: 1px solid #4ea387;
+  background: white;
   cursor: pointer;
   display: block;
   min-height: 38px;
@@ -42,15 +43,26 @@ a {
   border: 1px solid #4e70a3;
 }
 
+.red-button {
+  border: 1px solid #a34e4e;
+}
+
 .card-button:hover {
   color: white;
   background: #4ea387;
-  margin-left: 12px;
   border: none;
 }
 
 .blue-button:hover {
   background: #4e70a3;
+}
+
+.red-button:hover {
+  background: #a34e4e;
+}
+
+.inline {
+  display: inline;
 }
 
 @media (max-width: 765px) {
@@ -66,12 +78,23 @@ a {
     margin-right: auto;
   }
 
+  .card-spacing {
+    width: 1rem;
+    height: 1px;
+  }
+
   .card-actions {
     width: 100%;
+  }
+
+  .inline {
+    display: block;
   }
 
   .break {
     flex-basis: 100%;
     height: 0;
+    width: 0;
+    font-size: 0;
   }
 }

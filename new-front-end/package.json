@@ -14,6 +14,9 @@
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.7.4",
     "@babel/plugin-transform-runtime": "^7.6.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/vue-fontawesome": "^0.1.8",
     "axios": "^0.18.1",
     "core-js": "^2.6.9",
     "css-vars-ponyfill": "^1.17.2",
@@ -23,11 +26,13 @@
     "perfect-scrollbar": "^1.4.0",
     "simple-line-icons": "^2.4.1",
     "sweetalert2": "^9.4.0",
+    "v-money": "^0.8.1",
     "vue": "^2.6.6",
     "vue-color": "^2.7.0",
     "vue-router": "^3.1.1",
     "vue-sweetalert2": "^2.1.5",
-    "vue-the-mask": "^0.11.1"
+    "vue-the-mask": "^0.11.1",
+    "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.2",

@@ -1,20 +1,39 @@
 <template>
   <div>
     <card>
+      <div class="card-title">
+        <div class="text-center">
+          Seja bem-vindo, {{ nomeCompleto }}
+          <div class="break inline">|</div>
+          Você já economizou R${{ credit.toFixed(2) }}
+        </div>
+      </div>
+    </card>
+    <card>
       <span
         class="card-title"
       >{{ items.length > 0 ? `Você possui ${items.length} compra${items.length > 1 ? 's' : ''} registrada${items.length > 1 ? 's' : ''}` : 'Você não possui nenhuma compra registrada'}}</span>
       <div class="break"></div>
       <span class="card-actions">
         <button class="card-button blue-button" @click="getSells">Atualizar lista</button>
-        <button class="card-button">Cadastrar compra</button>
+        <div class="card-spacing"></div>
+        <button class="card-button" @click="newSell">Cadastrar compra</button>
       </span>
     </card>
-    <card>
+    <card class="mb-3">
       <responsive-table caption="Sumário do Período" :items="items" />
     </card>
   </div>
 </template>
+
+<style>
+body {
+  background: white;
+}
+.fa-events-icons-ready {
+  overflow: auto;
+}
+</style>
 
 <script>
 import Card from "../components/Card";
@@ -26,27 +45,54 @@ export default {
   data: () => {
     return {
       isLoadingBro: false,
-      items: []
+      items: [],
+      credit: 0
     };
   },
   methods: {
+    newSell() {
+      this.$router.push("/compras/cadastrar");
+    },
     async getSells() {
-      this.$parent.$parent.showLoading(true);
-      await axios
-        .get("/sells")
-        .then(response => {
-          this.items = response.data || [];
-        })
-        .catch(err => {
-          console.error({ err });
-          localStorage.setItem("logout_error", err.response.data.name);
-          this.$parent.$parent.logout();
-        });
-      this.$parent.$parent.showLoading(false);
+      let promise = new Promise(async (resolve, reject) => {
+        await axios
+          .get("/sells")
+          .then(response => {
+            this.items = response.data || [];
+            resolve();
+          })
+          .catch(error => {
+            localStorage.setItem("logout_error", error.response.data.name);
+            this.$parent.$parent.logout();
+            reject(error);
+          });
+        this.$parent.$parent.showLoading(false);
+      });
+
+      return await promise;
+    },
+    async getCashback() {
+      let promise = new Promise(async (resolve, reject) => {
+        await axios
+          .get(`/cashback/${localStorage.getItem("user_id")}`)
+          .then(response => {
+            this.credit = response.data.credit;
+            resolve();
+          })
+          .catch(error => {
+            localStorage.setItem("logout_error", error.response.data.name);
+            this.$parent.$parent.logout();
+            reject(error);
+          });
+        this.$parent.$parent.showLoading(false);
+      });
+      return await promise;
     }
   },
-  async beforeMount() {
-    await this.getSells();
+  beforeMount() {
+    this.nomeCompleto = localStorage.getItem("full_name");
+    this.$parent.$parent.showLoading(true);
+    Promise.all([this.getSells(), this.getCashback()]);
   }
 };
 </script>

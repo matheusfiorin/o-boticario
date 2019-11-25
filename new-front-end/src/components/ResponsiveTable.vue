@@ -8,6 +8,7 @@
           <th scope="col">Data</th>
           <th scope="col">Valor</th>
           <th scope="col">Cashback</th>
+          <th scope="col">Status</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -19,17 +20,18 @@
           <td
             data-label="Cashback"
           >R${{ (item.cashbackvalue || 0).toFixed(2) }} ({{ item.cashbackpercentage }}%)</td>
+          <td data-label="Status">{{ item.status.description }}</td>
           <td data-label="Ações">
             <div>
-              <button>Editar</button>
-              <button @click="showDeleteMessage(item.id)">Deletar</button>
+              <button class="table-button blue-button-solid mr-1" @click="editSell(item.id)">Editar</button>
+              <button class="table-button red-button-solid" @click="showDeleteMessage(item.id)">Deletar</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
     <div v-else>
-      <h3>teste porra</h3>
+      <h2 class="grey">Não encontramos registros para exibir</h2>
     </div>
   </div>
 </template>
@@ -40,6 +42,9 @@ import axios from "axios";
 export default {
   props: ["caption", "items"],
   methods: {
+    editSell(id) {
+      this.$router.push({ path: `/compras/editar/${id}` });
+    },
     async showDeleteMessage(id) {
       await this.$swal
         .fire({

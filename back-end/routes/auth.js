@@ -17,11 +17,11 @@ router.post('/login', (req, res) => {
   } = req.body;
 
   if (!email || !password) {
-    return generateErrorResponse(401, req.url, "Empty fields", ["Email and/or password field is empty"], res);
+    return generateErrorResponse(401, req.url, "Campos vazios", ["Campo de email e/ou senha vazios."], res, false);
   }
 
   if (!isValidEmail(email)) {
-    return generateErrorResponse(401, req.url, "Invalid email", ["The email provided isn't a valid email"], res);
+    return generateErrorResponse(401, req.url, "Email inválido", ["Insira um email válido."], res, false);
   }
 
   model.users.findOne({
@@ -31,10 +31,10 @@ router.post('/login', (req, res) => {
     })
     .then(user => {
       if (!user) {
-        return generateErrorResponse(401, req.url, "Unauthorized", ["This username isn't registered."], res);
+        return generateErrorResponse(401, req.url, "Não autorizado", ["Usuário não registrado."], res, false);
       }
       if (!bcrypt.compareSync(password, user.password)) {
-        return generateErrorResponse(401, req.url, "Unauthorized", ["Wrong password."], res);
+        return generateErrorResponse(401, req.url, "Não autorizado", ["Senha incorreta."], res);
       }
       var token = jwt.sign({
         id: user.id
@@ -43,14 +43,15 @@ router.post('/login', (req, res) => {
       });
       res.status(200).json({
         jwt: token,
-        user_id: user.id
+        user_id: user.id,
+        full_name: user.fullname
       });
     })
     .catch(err => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     })
 });
 
@@ -65,15 +66,15 @@ router.post('/register', (req, res) => {
   var noDigitCPF = cpf.replace(/\D+/g, "") || null;
 
   if (!fullname || !noDigitCPF || !email || !password) {
-    return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
+    return generateErrorResponse(401, req.url, "Campos vazios", ["Todos os campos são obrigatórios."], res, false);
   }
 
   if (!isValidEmail(email)) {
-    return generateErrorResponse(401, req.url, "Invalid email", ["The email provided isn't a valid email"], res);
+    return generateErrorResponse(401, req.url, "Email inválido", ["Insira um email válido."], res, false);
   }
 
   if (!isValidCPF(noDigitCPF)) {
-    return generateErrorResponse(401, req.url, "Invalid CPF", ["The CPF provided isn't a valid CPF"], res);
+    return generateErrorResponse(401, req.url, "CPF inválido", ["Insira um CPF válido."], res, false);
   }
 
   model.users.findOne({
@@ -83,7 +84,7 @@ router.post('/register', (req, res) => {
     })
     .then(user => {
       if (user) {
-        return generateErrorResponse(401, req.url, "User already exists", ["CPF field is unique."], res);
+        return generateErrorResponse(401, req.url, "Usuário já cadastrado", ["O campo CPF é único."], res, false);
       }
 
       let encriptedPassword = bcrypt.hashSync(password, 10);
@@ -105,7 +106,8 @@ router.post('/register', (req, res) => {
             message: "Created.",
             id: response.id,
             jwt: token,
-            user_id: response.id
+            user_id: response.id,
+            full_name: fullname
           });
         });
     })
@@ -113,7 +115,7 @@ router.post('/register', (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     });
 });
 
@@ -138,7 +140,7 @@ router.delete("/:id", (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     });
 });
 
