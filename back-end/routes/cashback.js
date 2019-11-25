@@ -29,7 +29,7 @@ router.get("/:userid", (req, res) => {
             'token': 'ZXPURQOARHiMc6Y0flhRC1LVlZQVFRnm'
           }
         }, (err, response, body) => {
-          var apiResponse = JSON.parse(body);
+          var apiResponse = JSON.parse(body || {});
           if (err) {
             return generateErrorResponse(apiResponse.statusCode, req.url, "Erro desconhecido", [err, response], res, false);
           }

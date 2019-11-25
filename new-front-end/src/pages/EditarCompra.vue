@@ -116,9 +116,11 @@ export default {
           this.price = response.data.price;
         })
         .catch(err => {
-          console.error({ err });
-          localStorage.setItem("logout_error", err.response.data.name);
-          this.$parent.$parent.logout();
+          if (err.response.data.disconnect) {
+            localStorage.setItem("logout_error", err.response.data.name);
+            this.$parent.$parent.logout();
+            reject(error);
+          }
         });
       this.$parent.$parent.showLoading(false);
     },

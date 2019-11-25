@@ -39,6 +39,7 @@ new Vue({
 });
 
 axios.interceptors.response.use(null, (err) => {
+  console.info({});
   if (err.response.data.disconnect) {
     return Promise.reject(err);
   }

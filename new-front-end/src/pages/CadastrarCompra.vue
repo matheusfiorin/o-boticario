@@ -113,20 +113,17 @@ export default {
           this.$router.go(-1);
         })
         .catch(err => {
-          this.$swal.fire({
-            title: "Oops...",
-            text: err.response.data.name,
-            type: "error",
-            customClass: {
-              confirmButton: "confirm-button-class"
-            }
-          });
+          if (err.response.data.disconnect) {
+            localStorage.setItem("logout_error", err.response.data.name);
+            this.$parent.$parent.logout();
+            reject(error);
+          }
         });
       this.$parent.$parent.showLoading(false);
     }
   },
   beforeMount() {
-    console.info({breadcrumbs: this.$route});
+    console.info({ breadcrumbs: this.$route });
     this.$parent.$parent.showLoading(false);
   }
 };
