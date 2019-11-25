@@ -13,6 +13,7 @@
 @import "./style/login.css";
 @import "./style/table.css";
 @import "./style/text.css";
+@import "./style/pagenotfound.css";
 @import "./style/profile.css";
 
 @import "./style/vendor/sweetalert2.min.css";
