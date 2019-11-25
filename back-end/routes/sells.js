@@ -5,7 +5,11 @@ const router = express.Router();
 require('./functions')();
 
 router.get("/", (req, res) => {
-  model.sells.findAll()
+  model.sells.findAll({
+      where: {
+        userid: req.userId
+      }
+    })
     .then(sells => {
       if (!sells) {
         return generateErrorResponse(404, req.url, "Not found", [`No sells where found.`], res);
