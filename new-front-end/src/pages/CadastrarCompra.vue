@@ -126,6 +126,7 @@ export default {
     }
   },
   beforeMount() {
+    console.info({breadcrumbs: this.$route});
     this.$parent.$parent.showLoading(false);
   }
 };

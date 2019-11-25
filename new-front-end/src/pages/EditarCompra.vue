@@ -137,6 +137,7 @@ export default {
   },
   beforeMount() {
     this.id = this.$route.params.id;
+    this.$parent.$parent.showLoading(false);
     this.getSell();
   }
 };

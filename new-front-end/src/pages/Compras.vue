@@ -93,6 +93,7 @@ export default {
     this.nomeCompleto = localStorage.getItem("full_name");
     this.$parent.$parent.showLoading(true);
     Promise.all([this.getSells(), this.getCashback()]);
+    console.info({breadcrumbs: this.$route});
   }
 };
 </script>

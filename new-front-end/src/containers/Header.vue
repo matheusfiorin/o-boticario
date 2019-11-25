@@ -25,12 +25,16 @@
         </div>
       </div>
     </header>
+    <breadcrumbs />
     <router-view />
   </div>
 </template>
 
 <script>
+import Breadcrumbs from "../components/Breadcrumbs";
+
 export default {
+  components: { Breadcrumbs },
   data: () => {
     return {
       isLoading: true

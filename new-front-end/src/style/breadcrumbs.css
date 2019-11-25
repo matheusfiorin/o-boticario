@@ -1,0 +1,36 @@
+.breadcrumbs-container {
+  background: #eee;
+  padding: 0 165px;
+}
+
+@media (max-width: 1024px) {
+  .breadcrumbs-container {
+    padding: 0 40px;
+  }
+}
+
+.breadcrumb-container {
+  display: flex;
+  padding: 10px 0;
+}
+
+.breadcrumb-item {
+  text-transform: capitalize;
+}
+
+.breadcrumb-clickable {
+  cursor: pointer;
+  color: #6fa287;
+}
+
+.breadcrumb-divider {
+  color: #222;
+}
+
+.breadcrumb-current {
+  color: #a4a4a4;
+}
+
+.bg-light-grey {
+  background: grey;
+}

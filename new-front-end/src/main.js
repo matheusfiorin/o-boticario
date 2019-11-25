@@ -2,6 +2,8 @@ import "core-js/es6/promise";
 import "core-js/es6/string";
 import "core-js/es7/array";
 
+require('dotenv').config();
+
 import axios from 'axios';
 import App from "./App";
 import moment from 'moment';
@@ -14,7 +16,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.prototype.moment = moment;
 
-axios.defaults.baseURL = 'http://192.168.0.5:3000';
+axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.headers.common['x-access-token'] = localStorage.getItem("jwt");
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

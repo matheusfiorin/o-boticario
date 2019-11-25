@@ -48,7 +48,7 @@ let router = new Router({
           component: CadastrarCompra,
           meta: {
             requiresAuth: true,
-            breadcrumb: "Cadastrar Compra"
+            breadcrumb: "Cadastrar"
           }
         }, {
           path: "editar/:id",
@@ -56,7 +56,7 @@ let router = new Router({
           component: EditarCompra,
           meta: {
             requiresAuth: true,
-            breadcrumb: "Editar Compra"
+            breadcrumb: "Editar"
           }
         }]
       }, {

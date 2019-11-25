@@ -136,7 +136,6 @@ body {
 </style>
 
 <script>
-import config from "@/shared/config";
 import regex from "@/shared/regex";
 import axios from "axios";
 import { TheMask } from "vue-the-mask";
