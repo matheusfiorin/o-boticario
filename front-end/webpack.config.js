@@ -116,5 +116,7 @@ module.exports = (env, argv) => ({
     overlay: true,
     port: 9000,
     historyApiFallback: true,
+    inline: true,
+    contentBase: './appout'
   }
 });

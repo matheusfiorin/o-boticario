@@ -88,12 +88,24 @@ p {
   background-color: #6fa287 !important;
   color: #eee !important;
   font-weight: 700 !important;
-  text-transform: uppercase !important;
+  /* text-transform: uppercase !important; */
 }
 
 .confirm-button-class:focus,
 .confirm-button-class:hover {
   background: #5a886f !important;
+}
+
+.cancel-button-class {
+  background-color: #a26f6f !important;
+  color: #eee !important;
+  font-weight: 700 !important;
+  /* text-transform: uppercase !important; */
+}
+
+.cancel-button-class:focus,
+.cancel-button-class:hover {
+  background: #885a5a !important;
 }
 
 *.hidden {

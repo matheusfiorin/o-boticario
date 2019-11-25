@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="loading" v-if="isLoading">
+      <div class="uil-ring-css" style="transform:scale(0.79);">
+        <div></div>
+      </div>
+    </div>
     <header class="header">
       <div class="header-inner container">
         <div class="logo">
@@ -29,11 +34,19 @@
 
 <script>
 export default {
+  data: () => {
+    return {
+      isLoading: true
+    };
+  },
   methods: {
     logout() {
       localStorage.removeItem("jwt");
       localStorage.removeItem("user_id");
       window.location.reload();
+    },
+    showLoading(bool) {
+      this.isLoading = bool;
     }
   }
 };

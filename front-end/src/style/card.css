@@ -23,6 +23,10 @@ a {
   margin: 5px 0;
 }
 
+.card-actions {
+  display: flex;
+}
+
 .card-button {
   padding: 10px;
   border-radius: 4px;
@@ -31,13 +35,22 @@ a {
   cursor: pointer;
   display: block;
   min-height: 38px;
+  margin-left: 10px;
+}
+
+.blue-button {
+  border: 1px solid #4e70a3;
 }
 
 .card-button:hover {
   color: white;
   background: #4ea387;
-  /* margin: 1px; */
+  margin-left: 12px;
   border: none;
+}
+
+.blue-button:hover {
+  background: #4e70a3;
 }
 
 @media (max-width: 765px) {

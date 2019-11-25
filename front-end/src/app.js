@@ -2,6 +2,10 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 
+import moment from 'moment';
+
+Vue.prototype.moment = moment;
+
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3000';
@@ -16,7 +20,11 @@ Vue.use(VueSweetalert2, {
   cancelButtonColor: '#ffffff'
 });
 
-Vue.config.productionTip = false
+import VueBreadcrumbs from 'vue-breadcrumbs';
+
+Vue.use(VueBreadcrumbs);
+
+Vue.config.productionTip = false;
 
 new Vue({
   el: '#app',

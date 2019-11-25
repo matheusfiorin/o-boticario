@@ -13,14 +13,16 @@
       </thead>
       <tbody class="striped">
         <tr v-for="item in items">
-          <td data-label="Código">{{ item.id }}</td>
-          <td data-label="Data">{{ item.date }}</td>
-          <td data-label="Valor">R${{ item.value }}</td>
-          <td data-label="Cashback">{{ item.cashback }}</td>
+          <td data-label="Código">{{ item.sellid }}</td>
+          <td data-label="Data">{{ moment(item.date).format("DD/MM/YYYY") }}</td>
+          <td data-label="Valor">R${{ (item.price || 0).toFixed(2) }}</td>
+          <td
+            data-label="Cashback"
+          >R${{ (item.cashbackvalue || 0).toFixed(2) }} ({{ item.cashbackpercentage }}%)</td>
           <td data-label="Ações">
             <div>
               <button>Editar</button>
-              <button>Deletar</button>
+              <button @click="showDeleteMessage(item.id)">Deletar</button>
             </div>
           </td>
         </tr>
@@ -33,7 +35,43 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  props: ["caption", "items"]
+  props: ["caption", "items"],
+  methods: {
+    async showDeleteMessage(id) {
+      await this.$swal
+        .fire({
+          title: "Você tem certeza?",
+          text: "Você não poderá reverter esta ação!",
+          type: "warning",
+          showCancelButton: true,
+          customClass: {
+            confirmButton: "confirm-button-class",
+            cancelButton: "cancel-button-class"
+          },
+          confirmButtonText: "Sim",
+          cancelButtonText: "Cancelar"
+        })
+        .then(async result => {
+          if (result.value) {
+            await this.deleteSell(id);
+            this.$swal
+              .fire("Apagado!", "Seu registro foi apagado.", "success")
+              .then(response => {
+                window.location.reload();
+              });
+          }
+        });
+    },
+    async deleteSell(id) {
+      await axios.delete(`/sells/${id}`).catch(err => {
+        console.error({ err });
+        localStorage.setItem("logout_error", err.response.data.name);
+        this.$parent.logout();
+      });
+    }
+  }
 };
 </script>

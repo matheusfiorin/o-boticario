@@ -200,6 +200,9 @@ export default {
             localStorage.setItem("jwt", response.data.jwt);
             localStorage.setItem("user_id", response.data.user_id);
             if (localStorage.getItem("jwt") != null) {
+              axios.defaults.headers.common[
+                "x-access-token"
+              ] = localStorage.getItem("jwt");
               this.$emit("loggedIn");
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
@@ -224,6 +227,20 @@ export default {
 
       this.isLoading = false;
     }
+  },
+  beforeMount() {
+    var logout_error = localStorage.getItem("logout_error");
+    if (logout_error) {
+      this.$swal.fire({
+        title: "Oops...",
+        text: logout_error,
+        type: "error",
+        customClass: {
+          confirmButton: "confirm-button-class"
+        }
+      });
+    }
+    localStorage.removeItem("logout_error");
   }
 };
 </script>

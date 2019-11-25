@@ -7,6 +7,7 @@ const Header = () => import("@/containers/Header");
 // Page content
 const Login = () => import("@/pages/Login");
 const Dashboard = () => import("@/pages/Dashboard");
+const AdicionarCompra = () => import("@/pages/AdicionarCompra");
 const Compras = () => import("@/pages/Compras");
 const Sobre = () => import("@/pages/Sobre");
 
@@ -30,21 +31,41 @@ let router = new Router({
         name: "Dashboard",
         component: Dashboard,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          breadcrumb: "Dashboard"
         }
       }, {
         path: "compras",
         name: "Compras",
-        component: Compras,
-        meta: {
-          requiresAuth: true
-        }
+        redirect: "/compras",
+        component: {
+          render(c) {
+            return c("router-view");
+          }
+        },
+        children: [{
+          path: "",
+          component: Compras,
+          meta: {
+            requiresAuth: true,
+            breadcrumb: "Compras"
+          },
+        }, {
+          path: "adicionar",
+          name: "Adicionar",
+          component: AdicionarCompra,
+          meta: {
+            requiresAuth: true,
+            breadcrumb: "Adicionar Compras"
+          }
+        }]
       }, {
         path: "sobre",
         name: "Sobre",
         component: Sobre,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          breadcrumb: "Sobre"
         }
       }]
     },
