@@ -33,7 +33,7 @@ Para ver a API em ação você precisa executar o comando `node app.js` da pasta
 
 > Você também pode importar minha coleção do Postman localizado na pasta `/backend/collection` para uma análise mais rápida.
 
-> (Lembre-se que é necessário sempre passar o header `x-access-token` com um JWT válido para testar as rotas)
+> (Lembre-se que é necessário sempre passar o header `x-access-token` com um JWT válido para testar as rotas - com exceção da rota `/auth`)
 
 Checklist:
 ---
@@ -55,7 +55,7 @@ O revendedor, após se registrar, terá seu cashback cadastrado em meu sistema s
 
 ### Front-End
 
-Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação em no [site oficial](https://cli.vuejs.org/).
+Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação no [site oficial](https://cli.vuejs.org/).
 
 Após instalado, instale as dependências do `node.js` na pasta `/front-end` executando o comando `npm install` e, em seguida, estará pronto para usar.
 
@@ -74,9 +74,9 @@ Checklist:
 Breve explicação:
 ---
 
-Aqui também foi utilizado o `DRY` com os interceptadores feitos no Axios, com a divisão de componentes e containers e com a prototipação do moment. Meu foco foi demonstrar minhas capacidades de criação da UI sem a necessidade de uma framework - por mais que eu utilize bootstrap a todo momento no meu dia-a-dia, assim como tentar mostrar um webpack com um bom nível de SEO, um pequeno começo de PWA - afim de funcionar offline.
+Aqui também foi utilizado o `DRY` com os interceptadores feitos no Axios, com a divisão de componentes e containers e com a prototipação do moment. Meu foco foi demonstrar minhas capacidades de criação da UI sem a necessidade de uma framework - por mais que eu utilize bootstrap a todo momento no meu dia-a-dia, assim como tentar mostrar um webpack com um bom nível de SEO, um pequeno começo de PWA - afim de funcionar offline (porém não completamente implementado com seus devidos *service workers*) .
 
-Foi incorporado um estilo de design parecido com o que o `Grupo Boticário` oferece em seu [site](https://boticario.com.br/), porém, aplicando meus toques para ficar algo *único e minimalista*. O pacote `vue-sweetalert2` (para as exibições de erro) foi utilizado apenas para dar mais agilidade, tendo em vista que seu estilo encaixava com as diretrizes que criei ao fazer o sketch do projeto em uma folha de caderno.
+Foi incorporado um estilo de design parecido com o que o `Grupo Boticário` oferece em seu [site](https://boticario.com.br/), porém, aplicando meus toques para ficar algo *único e minimalista*. O pacote `vue-sweetalert2` (para as exibições de erro e alerta) foi utilizado apenas para dar mais agilidade, tendo em vista que seu estilo encaixava com as diretrizes que criei ao fazer o sketch do projeto em uma folha de caderno.
 
 ### Screenshots:
 
