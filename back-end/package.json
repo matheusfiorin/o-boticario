@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "unit": "jest --testPathPattern=test\\.js$",
-    "integration": "jest --testPathPattern=spec\\.js$"
+    "integration": "jest --testPathPattern=spec\\.js$",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [
     "backend;nodejs"
@@ -31,6 +33,8 @@
     "request": "^2.88.0",
     "sequelize": "^5.21.2",
     "supertest": "^4.0.2",
-    "uglify-js": "^2.8.29"
-  }
+    "uglify-js": "^2.8.29",
+    "snyk": "^1.251.1"
+  },
+  "snyk": true
 }
