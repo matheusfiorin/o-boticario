@@ -2,7 +2,7 @@
 
 Pensando em upload para uma infraestrutura escalável - como o Amazon Elastic Container Service (Amazon ECS) - é necessário o vínculo com variáveis de ambiente, afim de utilizar o mesmo código em diversos ambientes (produção, QA, etc).
 
-Portanto, será necessário criar um .env dentro da pasta `/backend`, sendo ele:
+Portanto, será necessário criar um arquivo `.env` dentro da pasta `/backend`, sendo ele:
 
 ``` 
 NODE_ENV=development
