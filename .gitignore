@@ -95,3 +95,6 @@ public/
 .dynamodb/
 
 # End of https://www.gitignore.io/api/node
+new-front-end/dist/
+
+.DS_Store

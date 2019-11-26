@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "d923c31a-f206-43f7-b3f4-d7dd38d7d6d4",
+		"name": "Boticario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullname\": \"Magic CPF Guy\",\r\n    \"cpf\": \"15350946056\",\r\n    \"email\": \"magic@guy.com\",\r\n    \"password\": \"matheus\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"matheusfiiorin@gmail.com\",\n\t\"password\": \"matheus\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Sells",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/sells",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sells"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Sell by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/sells/2",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sells",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Sells",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userid\": 1,\n\t\"sellid\": \"1\",\n\t\"price\": 1.2,\n\t\"date\": \"2019-01-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/sells",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sells"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Sells",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userid\": 2,\n\t\"sellid\": \"2\",\n\t\"price\": 2.3,\n\t\"date\": \"2019-02-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/sells/6",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sells",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Sells",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/sells/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sells",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cashback",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "INSIRA-UM-TOKEN-AQUI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/cashback/4",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cashback",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - User (test purpose only)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/auth/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
