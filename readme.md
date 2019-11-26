@@ -7,7 +7,7 @@ Este projeto tem como seu foco a resolução do desafio proposto pelo Grupo Boti
 
 ## Antes de começar
 
-**Importante! Verifique [aqui]() se os arquivos `.env` para a configuração de variáveis de ambiente estão devidamente colocados antes de continuar!**
+**Importante! Verifique [aqui](dotenv.md) se os arquivos `.env` para a configuração de variáveis de ambiente estão devidamente colocados antes de continuar!**
 
 ### Back-End
 
@@ -51,7 +51,7 @@ Foi utilizado o conceito de `DRY - Don't Repeat Yourself` na confecção destas 
 
 ### Front-End
 
-Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação em no [site oficial.](https://cli.vuejs.org/).
+Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação em no [site oficial](https://cli.vuejs.org/).
 
 Após instalado, instale as dependências do `node.js` na pasta `/front-end` executando o comando `npm install` e, em seguida, estará pronto para usar.
 
