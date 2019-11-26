@@ -49,6 +49,10 @@ Breve explicação:
 
 Foi utilizado o conceito de `DRY - Don't Repeat Yourself` na confecção destas rotas afim de preservar a integridade de cada função que, por sua vez, faz com que cada função e/ou parte do back-end tenha uma tarefa bem delimitada e sem repetição de código. Cada rota tem seu arquivo separado afim de criar uma manutenção mais fácil, assim como foi utilizado o SequelizeORM para manutenção do banco de dados - com a grandiosa vantagem de aumentar a legibilidade do código e a performance das queries no banco.
 
+Minha lógica para as premissas de uso:
+
+O revendedor, após se registrar, terá seu cashback cadastrado em meu sistema somado e, junto a isto, será somado o valor retornado pela API disponibilizada.
+
 ### Front-End
 
 Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação em no [site oficial](https://cli.vuejs.org/).
