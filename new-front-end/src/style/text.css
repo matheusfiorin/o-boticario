@@ -40,6 +40,7 @@ input[type='submit'] {
 .form input[type='text'],
 .form input[type='submit'] {
   width: 100%;
+  -webkit-appearance: none;
 }
 
 .form-field {
