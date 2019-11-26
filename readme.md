@@ -1,35 +1,98 @@
 # Fullstack Developer Challenge - O Boticario
 
-* Author: Matheus Barão Fiorin
-* Challenge: “Eu revendedor ‘O Boticário’ quero ter benefícios de acordo com o meu volume de vendas”.
+* Autor: Matheus Barão Fiorin
+* Desafio: “Eu revendedor ‘O Boticário’ quero ter benefícios de acordo com o meu volume de vendas”.
 
-This is a project focused on the problem solving for the resellers of "O Boticario" group.
+Este projeto tem como seu foco a resolução do desafio proposto pelo Grupo Boticário, afim de demonstrar minhas capacidades perante ao mesmo.
 
-## Getting Started
+## Antes de começar
+
+**Importante! Verifique [aqui]() se os arquivos `.env` para a configuração de variáveis de ambiente estão devidamente colocados antes de continuar!**
 
 ### Back-End
 
-First, you need to have a MySQL server ready-to-use (preferably `5.7.26`).
+Primeiro, você precisa ter uma instância MySQL pronta para uso (preferencialmente a versão `5.7.26`).
 
-Once stated, run the `start.sql` script from the `/db` folder on your MySQL server.
+Assim que obtiver acesso, execute o arquivo `start.sql` da pasta `/db` dentro de sua instância.
 
-Second, you need to install `node.js` v12.x.x in order to fully work. If you don't have it installed,
-visit [node's download page](http://nodejs.org/download/).
+Segundo, você precisa instalar o `node.js` na versão 12.x.x para funcionar corretamente. Caso não tenha, visite o [site de download oficial](http://nodejs.org/download/).
 
-Once installed, checkout the backend dependencies from npm by running the following command in the backend folder from a terminal:
+Assim que estiver tudo configurado, instale as dependencias do projeto rodando o seguinte comando no terminal (com a pasta `/backend` aberta no mesmo):
 
 ``` javascript
   npm install
 ```
 
-To run the tests you need to checkout to the backend folder on a terminal and you can choose between:
+Para executar os testes unitários, abra a pasta `/backend` no terminal e escolha entre:
 
-* `npm test` - runs all the tests;
-* `npm run unit` - runs only the unit tests;
-* `npm run integration` - runs only the integration test.
+* `npm test` - executa todos os testes;
+* `npm run unit` - executa apenas testes de unidade;
+* `npm run integration` - executa apenas o teste de integração.
 
-To start the API you need to checkout to the backend folder on a terminal and simply run `node app.js` to see in action.
+Para ver a API em ação você precisa executar o comando `node app.js` da pasta `/backend`
 
-> You can also import the Postman Collection from the `/backend/collection` folder in order to a quicker review. 
+> Você também pode importar minha coleção do Postman localizado na pasta `/backend/collection` para uma análise mais rápida.
 
-> (Remember to double check the `x-access-token` header to pass the given `JWT` from the `/auth/login` route)
+> (Lembre-se que é necessário sempre passar o header `x-access-token` com um JWT válido para testar as rotas)
+
+Checklist:
+---
+
+- [x] Utilizado NodeJS;
+- [x] Utilizado MySQL;
+- [x] Diferencial: Testes de unidade;
+- [x] Diferencial: Teste de integração;
+- [x] Diferencial: Autenticação por JWT;
+
+Breve explicação:
+---
+
+Foi utilizado o conceito de `DRY - Don't Repeat Yourself` na confecção destas rotas afim de preservar a integridade de cada função que, por sua vez, faz com que cada função e/ou parte do back-end tenha uma tarefa bem delimitada e sem repetição de código. Cada rota tem seu arquivo separado afim de criar uma manutenção mais fácil, assim como foi utilizado o SequelizeORM para manutenção do banco de dados - com a grandiosa vantagem de aumentar a legibilidade do código e a performance das queries no banco.
+
+### Front-End
+
+Depois que o `node.js` estiver configurado, é hora de verificar se o cli do VueJS está devidamente instalado em sua máquina. Caso não esteja, verifique a instalação em no [site oficial.](https://cli.vuejs.org/).
+
+Após instalado, instale as dependências do `node.js` na pasta `/front-end` executando o comando `npm install` e, em seguida, estará pronto para usar.
+
+Assim como descrito no `package.json`, temos dois comandos principais:
+
+* `npm run serve` - executa o cli do VueJS para abrir um servidor local;
+* `npm run build` - compila o código para a pasta `/dist` e está pronto para ser colocado em um servidor - como nginx.
+
+Checklist:
+---
+
+- [x] Utilizado VueJS;
+- [x] Diferencial: Não utilizado frameworks de UI;
+- [x] Diferencial: Interface responsiva;
+
+Breve explicação:
+---
+
+Aqui também foi utilizado o `DRY` com os interceptadores feitos no Axios, com a divisão de componentes e containers e com a prototipação do moment. Meu foco foi demonstrar minhas capacidades de criação da UI sem a necessidade de uma framework - por mais que eu utilize bootstrap a todo momento no meu dia-a-dia, assim como tentar mostrar um webpack com um bom nível de SEO, um pequeno começo de PWA - afim de funcionar offline.
+
+Foi incorporado um estilo de design parecido com o que o `Grupo Boticário` oferece em seu [site](https://boticario.com.br/), porém, aplicando meus toques para ficar algo *único e minimalista*. O pacote `vue-sweetalert2` (para as exibições de erro) foi utilizado apenas para dar mais agilidade, tendo em vista que seu estilo encaixava com as diretrizes que criei ao fazer o sketch do projeto em uma folha de caderno.
+
+### Screenshots:
+
+![](screenshots/tests.png)
+
+> Todos os cinco testes com sucesso
+
+![](screenshots/front-end-login.png)
+
+> Tela de login
+
+![](screenshots/front-end-home-1.png)
+![](screenshots/front-end-home-2.png)
+
+> Tela inicial, com quebra de tabela para card
+
+![](screenshots/front-end-remove.png)
+
+> Adequação do modal
+
+![](screenshots/front-end-register.png)
+
+> Tela de registro
