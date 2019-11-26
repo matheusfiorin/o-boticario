@@ -11,7 +11,7 @@
     </card>
     <card>
       <span
-        class="card-title"
+        class="card-title text-center"
       >{{ items.length > 0 ? `Você possui ${items.length} compra${items.length > 1 ? 's' : ''} registrada${items.length > 1 ? 's' : ''}` : 'Você não possui nenhuma compra registrada'}}</span>
       <div class="break"></div>
       <span class="card-actions">
@@ -93,7 +93,7 @@ export default {
     this.nomeCompleto = localStorage.getItem("full_name");
     this.$parent.$parent.showLoading(true);
     Promise.all([this.getSells(), this.getCashback()]);
-    console.info({breadcrumbs: this.$route});
+    console.info({ breadcrumbs: this.$route });
   }
 };
 </script>

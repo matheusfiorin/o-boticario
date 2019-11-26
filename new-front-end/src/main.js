@@ -16,7 +16,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.prototype.moment = moment;
 
-axios.defaults.baseURL = `http://localhost:3000`;
+axios.defaults.baseURL = `http://192.168.0.5:3000`;
 axios.defaults.headers.common['x-access-token'] = localStorage.getItem("jwt");
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

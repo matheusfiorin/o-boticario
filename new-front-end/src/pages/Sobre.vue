@@ -1,11 +1,11 @@
 <template>
   <div>
-    <card class="green-shadow center profile-display">
+    <card class="green-shadow center profile-display mb-3">
       <div class="block">
         <img src="../assets/profile.png" alt="Profile Photo" class="profile-photo" />
       </div>
       <div class="block">
-        <span class="profile-title">Matheus Barão Fiorin</span>
+        <span class="profile-title text-center">Matheus Barão Fiorin</span>
       </div>
       <div class="block">
         <span class="profile-subtitle">Desenvolvedor Full Stack Sênior</span>
@@ -47,6 +47,12 @@
     </card>
   </div>
 </template>
+
+<style>
+.fa-events-icons-ready {
+  overflow: auto;
+}
+</style>
 
 <script>
 import Card from "../components/Card";

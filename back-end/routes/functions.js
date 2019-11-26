@@ -140,7 +140,7 @@ module.exports = function () {
 
     if (process.env.NODE_ENV !== "test")
       jwt.verify(token, process.env.SECRET, function (err, decoded) {
-        if (err) return this.generateErrorResponse(500, req.url, "Falha ao autenticar token de acesso.", ["JWT inválido ou expirado."], res, true);
+        if (err) return this.generateErrorResponse(500, req.url, "Sessão expirada. Faça login novamente.", ["JWT inválido ou expirado."], res, true);
 
         req.userId = decoded.id;
         next();

@@ -98,7 +98,7 @@
 
         <p class="text-center">
           {{ newUser ? "Já é cadastrado?" : "Não tem cadastro?" }}
-          <a @click="newUser = !newUser">
+          <a @click="toggleRegister">
             Clique aqui
             <svg class="icon white-icon">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right" />
@@ -213,6 +213,13 @@ export default {
         .catch(_ => (this.isLoading = false));
 
       this.isLoading = false;
+    },
+    toggleRegister() {
+      this.newUser = !this.newUser;
+      this.cpf = null;
+      this.email = null;
+      this.fullname = null;
+      this.password = null;
     }
   },
   beforeMount() {
