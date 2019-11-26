@@ -5,10 +5,26 @@ const router = express.Router();
 require('./functions')();
 
 router.get("/", (req, res) => {
-  model.sells.findAll()
+  model.statuses.hasOne(model.sells, {
+    foreignKey: "statusid"
+  });
+
+  model.sells.belongsTo(model.statuses, {
+    foreignKey: "statusid"
+  });
+
+  model.sells.findAll({
+      where: {
+        userid: req.userId || 1
+      },
+      include: [{
+        model: model.statuses,
+        required: true
+      }]
+    })
     .then(sells => {
       if (!sells) {
-        return generateErrorResponse(404, req.url, "Not found", [`No sells where found.`], res);
+        return generateErrorResponse(404, req.url, "Não encontrado", [`Nenhuma compra foi encontrada.`], res, false);
       }
       res.status(200).json(sells || []);
     })
@@ -16,7 +32,7 @@ router.get("/", (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     })
 });
 
@@ -26,7 +42,7 @@ router.get("/:id", (req, res) => {
   } = req.params;
 
   if (!id) {
-    return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
+    return generateErrorResponse(401, req.url, "Campos vazios", ["Todo campo é obrigatório."], res, false);
   }
 
   model.sells.findOne({
@@ -36,7 +52,7 @@ router.get("/:id", (req, res) => {
     })
     .then(sells => {
       if (!sells) {
-        return generateErrorResponse(404, req.url, "Not found", [`Sell with ID ${id} not found.`], res);
+        return generateErrorResponse(404, req.url, "Não encontrado", [`Compra com o ID (${id}) não encontrado.`], res, false);
       }
       res.status(200).json(sells || {});
     })
@@ -44,7 +60,7 @@ router.get("/:id", (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     })
 });
 
@@ -56,8 +72,16 @@ router.post("/", async (req, res) => {
     date
   } = req.body;
 
+  console.info({
+    body: req.body
+  })
+
   if (!userid || !sellid || !price || !date) {
-    return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
+    return generateErrorResponse(401, req.url, "Campos vazios", ["Todo campo é necessário."], res, false);
+  }
+
+  if(await checkSellID(sellid)) {
+    return generateErrorResponse(401, req.url, "Este código já existe", ["O código da compra é único."], res, false);
   }
 
   const {
@@ -72,7 +96,7 @@ router.post("/", async (req, res) => {
     })
     .then(user => {
       if (!user) {
-        return generateErrorResponse(401, req.url, "User not found", ["UserID don't match our db"], res);
+        return generateErrorResponse(401, req.url, "Usuário não encontrado", ["O usuário não está cadastrado."], res, false);
       }
       return user.cpf;
     })
@@ -80,7 +104,7 @@ router.post("/", async (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Error searching user", [err], res);
+      return generateErrorResponse(400, req.url, "Erro ao pesquisar usuário", [err], res, false);
     })
 
   let statusid = await model.statuses.findOne({
@@ -95,7 +119,7 @@ router.post("/", async (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Error searching statuses", [err], res);
+      return generateErrorResponse(400, req.url, "Erro ao pesquisar status", [err], res, false);
     });
 
   model.sells.create({
@@ -118,7 +142,7 @@ router.post("/", async (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     });
 });
 
@@ -135,18 +159,25 @@ router.put("/:id", async (req, res) => {
   } = req.body;
 
   if (!userid || !sellid || !price || !date) {
-    return generateErrorResponse(401, req.url, "Empty fields", ["Every field is required."], res);
+    return generateErrorResponse(401, req.url, "Campos vazios", ["Todo campo é obrigatório."], res, false);
   }
 
   if (!isAbleToChange(id)) {
-    return generateErrorResponse(401, req.url, "Unable to change", ["This sell isn't able to update because isn't pending approval anymore."], res);
+    return generateErrorResponse(401, req.url, "Não foi alterado", ["Esta compra não pode ser alterada porque não está 'Em validação' mais."], res, false);
   }
+
+  const {
+    cashbackpercentage,
+    cashbackvalue
+  } = calculateCashback(price);
 
   model.sells.update({
       userid,
       sellid,
       price,
-      date
+      date,
+      cashbackpercentage,
+      cashbackvalue
     }, {
       where: {
         id
@@ -163,7 +194,7 @@ router.put("/:id", async (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Erro desconhecido", [err], res, false);
     });
 });
 
@@ -173,11 +204,11 @@ router.delete("/:id", async (req, res) => {
   } = req.params;
 
   if (!await sellExist(id)) {
-    return generateErrorResponse(401, req.url, "Unable to locate the ID", ["This sell can't be located anymore."], res);
+    return generateErrorResponse(401, req.url, "Compra não encontrada", ["Esta compra não pôde ser localizada."], res, false);
   }
 
   if (!await isAbleToChange(id)) {
-    return generateErrorResponse(401, req.url, "Unable to change", ["This sell isn't able to update because isn't pending approval anymore."], res);
+    return generateErrorResponse(401, req.url, "Não foi alterado", ["Esta compra não pode ser alterada porque não está 'Em validação' mais."], res, false);
   }
 
   model.sells.destroy({
@@ -196,7 +227,7 @@ router.delete("/:id", async (req, res) => {
       console.error({
         err
       });
-      return generateErrorResponse(400, req.url, "Unknown error", [err], res);
+      return generateErrorResponse(400, req.url, "Unknown error", [err], res, false);
     });
 });
 

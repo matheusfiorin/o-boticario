@@ -2,6 +2,20 @@ const model = require('../models/index');
 const jwt = require('jsonwebtoken');
 
 module.exports = function () {
+  this.checkSellID = async function (sellid) {
+    let promise = new Promise((resolve, reject) => {
+      model.sells.findOne({
+          where: {
+            sellid
+          }
+        })
+        .then(response => {
+          resolve(response ? true : false);
+        })
+    });
+
+    return await promise;
+  };
   this.isValidCPF = function (strCPF) {
     var Soma;
     var Resto;
@@ -40,12 +54,13 @@ module.exports = function () {
   this.isValidEmail = function (email) {
     return email.match(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g);
   };
-  this.generateErrorResponse = function (code, url, name, causes, res) {
+  this.generateErrorResponse = function (code, url, name, causes, res, disconnect) {
     return res.status(code).json({
       code,
       url,
       name,
-      causes
+      causes,
+      disconnect
     });
   };
   this.isAbleToChange = async function (id) {
@@ -121,11 +136,11 @@ module.exports = function () {
   this.verifyJWT = function (req, res, next) {
     var token = req.headers['x-access-token'];
 
-    if (!token) return this.generateErrorResponse(401, req.url, "No token provided.", ["You need to pass the JWT header."], res);
+    if (!token) return this.generateErrorResponse(401, req.url, "Token de acesso não disponibilizado.", ["Você precisa passar o header x-access-token."], res, true);
 
     if (process.env.NODE_ENV !== "test")
       jwt.verify(token, process.env.SECRET, function (err, decoded) {
-        if (err) return this.generateErrorResponse(500, req.url, "Failed to authenticate token.", ["JWT malformed."], res);
+        if (err) return this.generateErrorResponse(500, req.url, "Sessão expirada. Faça login novamente.", ["JWT inválido ou expirado."], res, true);
 
         req.userId = decoded.id;
         next();
