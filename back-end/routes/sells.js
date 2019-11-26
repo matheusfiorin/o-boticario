@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 
   model.sells.findAll({
       where: {
-        userid: req.userId || 1
+        userid: req.userId || req.testId
       },
       include: [{
         model: model.statuses,

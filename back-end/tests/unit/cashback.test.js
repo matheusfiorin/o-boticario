@@ -12,7 +12,7 @@ jest.setTimeout(30000);
 describe('Cashback routine', () => {
   test('Get credit',
     async (done) => {
-      await withJwtAuthentication(request(app).get(`/cashback/${process.env.TEST_USER_ID}`))
+      await request(app).get(`/cashback/${process.env.TEST_USER_ID}`)
         .then(async resp => {
           expect(resp.status).toBe(200);
           expect(resp.body.credit).not.toBe(null);

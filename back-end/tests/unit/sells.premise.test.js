@@ -12,14 +12,17 @@ jest.setTimeout(30000);
 describe('Sells routine', () => {
   test('Insert, Update, Get & Delete',
     async (done) => {
-      await withJwtAuthentication(request(app).post('/sells').send(sellWith10PercentCashback))
+      await request(app).post('/sells').send(sellWith10PercentCashback)
         .then(async resp => {
+          console.info({
+            resp
+          });
           expect(resp.status).toBe(201);
           expect(resp.body.id).not.toBe(null);
 
           const tenPercentCashbackID = resp.body.id;
 
-          const fifteenPercentCashbackID = await withJwtAuthentication(request(app).post('/sells').send(sellWith15PercentCashback))
+          const fifteenPercentCashbackID = await request(app).post('/sells').send(sellWith15PercentCashback)
             .then(resp => {
               expect(resp.status).toBe(201);
               expect(resp.body.id).not.toBe(null);
@@ -27,7 +30,7 @@ describe('Sells routine', () => {
               return resp.body.id;
             });
 
-          const twentyPercentCashbackID = await withJwtAuthentication(request(app).post('/sells').send(sellWith20PercentCashback))
+          const twentyPercentCashbackID = await request(app).post('/sells').send(sellWith20PercentCashback)
             .then(resp => {
               expect(resp.status).toBe(201);
               expect(resp.body.id).not.toBe(null);
@@ -35,38 +38,38 @@ describe('Sells routine', () => {
               return resp.body.id;
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${tenPercentCashbackID}`))
+          await request(app).get(`/sells/${tenPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.cashbackpercentage).toBe(10);
               expect(resp.body.cashbackvalue).toBe(sellWith10PercentCashback.price * 0.1);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${fifteenPercentCashbackID}`))
+          await request(app).get(`/sells/${fifteenPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.cashbackpercentage).toBe(15);
               expect(resp.body.cashbackvalue).toBe(sellWith15PercentCashback.price * 0.15);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${twentyPercentCashbackID}`))
+          await request(app).get(`/sells/${twentyPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.cashbackpercentage).toBe(20);
               expect(resp.body.cashbackvalue).toBe(sellWith20PercentCashback.price * 0.2);
             });
 
-          await withJwtAuthentication(request(app).delete(`/sells/${tenPercentCashbackID}`))
+          await request(app).delete(`/sells/${tenPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
             });
 
-          await withJwtAuthentication(request(app).delete(`/sells/${fifteenPercentCashbackID}`))
+          await request(app).delete(`/sells/${fifteenPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
             });
 
-          await withJwtAuthentication(request(app).delete(`/sells/${twentyPercentCashbackID}`))
+          await request(app).delete(`/sells/${twentyPercentCashbackID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               done();

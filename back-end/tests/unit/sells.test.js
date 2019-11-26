@@ -12,20 +12,20 @@ jest.setTimeout(30000);
 describe('Sells routine', () => {
   test('Insert, Update, Get & Delete',
     async (done) => {
-      await withJwtAuthentication(request(app).post('/sells').send(baseSell))
+      await request(app).post('/sells').send(baseSell)
         .then(async resp => {
           expect(resp.status).toBe(201);
           expect(resp.body.id).not.toBe(null);
 
           const SellID = resp.body.id;
 
-          await withJwtAuthentication(request(app).get("/sells"))
+          await request(app).get("/sells").set('user-id', process.env.TEST_USER_ID)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.length).not.toBe(0);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
@@ -35,19 +35,19 @@ describe('Sells routine', () => {
               expect(new Date(resp.body.date)).toStrictEqual(new Date(baseSell.date));
             });
 
-          await withJwtAuthentication(request(app).put(`/sells/${SellID}`).send(updatedSell))
+          await request(app).put(`/sells/${SellID}`).send(updatedSell)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
             });
 
-          await withJwtAuthentication(request(app).get("/sells"))
+          await request(app).get("/sells").set('user-id', process.env.TEST_USER_ID)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.length).not.toBe(0);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
@@ -57,15 +57,15 @@ describe('Sells routine', () => {
               expect(new Date(resp.body.date)).toStrictEqual(new Date(updatedSell.date));
             });
 
-          await withJwtAuthentication(request(app).delete(`/sells/${SellID}`))
+          await request(app).delete(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(404);
-              expect(resp.body.name).toBe("Not found");
+              expect(resp.body.name).toBe("Não encontrado");
 
               done();
             });
@@ -85,7 +85,7 @@ describe('Sells routine', () => {
   }
 
   const updatedSell = {
-    "userid": parseInt(process.env.TEST_ANOTHER_USER_ID),
+    "userid": parseInt(process.env.TEST_USER_ID),
     "sellid": generateRandomNumber(1000).toString(),
     "price": generateRandomNumber(100),
     "date": new Date().toString()

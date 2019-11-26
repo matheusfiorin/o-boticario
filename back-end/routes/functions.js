@@ -136,20 +136,19 @@ module.exports = function () {
   this.verifyJWT = function (req, res, next) {
     var token = req.headers['x-access-token'];
 
-    if (!token) return this.generateErrorResponse(401, req.url, "Token de acesso não disponibilizado.", ["Você precisa passar o header x-access-token."], res, true);
+    if (process.env.NODE_ENV !== "test") {
+      if (!token) return this.generateErrorResponse(401, req.url, "Token de acesso não disponibilizado.", ["Você precisa passar o header x-access-token."], res, true);
 
-    if (process.env.NODE_ENV !== "test")
       jwt.verify(token, process.env.SECRET, function (err, decoded) {
         if (err) return this.generateErrorResponse(500, req.url, "Sessão expirada. Faça login novamente.", ["JWT inválido ou expirado."], res, true);
 
         req.userId = decoded.id;
         next();
       });
-    else
+    } else {
+      req.testId = req.headers['user-id'];
       next();
-  }
-  this.withJwtAuthentication = function (request) {
-    return request.set('x-access-token', 'test-jwt-token')
+    }
   }
   this.calculateCashback = function (price) {
     return {

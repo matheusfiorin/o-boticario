@@ -18,6 +18,9 @@ describe('Auth routine', () => {
     async (done) => {
       await request(app).post('/auth/register').send(base_user)
         .then(async resp => {
+          console.info({
+            resp
+          });
           expect(resp.status).toBe(201);
           expect(resp.body.id).not.toBe(null);
 
@@ -35,7 +38,7 @@ describe('Auth routine', () => {
           expect(resp.status).toBe(201);
           expect(resp.body.id).not.toBe(null);
 
-          const SellID = await withJwtAuthentication(request(app).post('/sells').send(base_sell))
+          const SellID = await request(app).post('/sells').send(base_sell)
             .then(async resp => {
               expect(resp.status).toBe(201);
               expect(resp.body.id).not.toBe(null);
@@ -43,13 +46,13 @@ describe('Auth routine', () => {
               return resp.body.id;
             });
 
-          await withJwtAuthentication(request(app).get("/sells"))
+          await request(app).get("/sells").set('user-id', UserID)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.length).not.toBe(0);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
@@ -59,19 +62,19 @@ describe('Auth routine', () => {
               expect(new Date(resp.body.date)).toStrictEqual(new Date(base_sell.date));
             });
 
-          await withJwtAuthentication(request(app).put(`/sells/${SellID}`).send(updated_sell))
+          await request(app).put(`/sells/${SellID}`).send(updated_sell)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
             });
 
-          await withJwtAuthentication(request(app).get("/sells"))
+          await request(app).get("/sells").set('user-id', UserID)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.length).not.toBe(0);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.id).toBe(SellID);
@@ -81,24 +84,24 @@ describe('Auth routine', () => {
               expect(new Date(resp.body.date)).toStrictEqual(new Date(updated_sell.date));
             });
 
-          await withJwtAuthentication(request(app).delete(`/sells/${SellID}`))
+          await request(app).delete(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
             });
 
-          await withJwtAuthentication(request(app).get(`/sells/${SellID}`))
+          await request(app).get(`/sells/${SellID}`)
             .then(resp => {
               expect(resp.status).toBe(404);
-              expect(resp.body.name).toBe("Not found");
+              expect(resp.body.name).toBe("Não encontrado");
             });
 
-          await withJwtAuthentication(request(app).get(`/cashback/${process.env.TEST_USER_ID}`))
+          await request(app).get(`/cashback/${process.env.TEST_USER_ID}`)
             .then(async resp => {
               expect(resp.status).toBe(200);
               expect(resp.body.credit).not.toBe(null);
             });
 
-          await withJwtAuthentication(request(app).delete(`/auth/${UserID}`))
+          await request(app).delete(`/auth/${UserID}`)
             .then(resp => {
               expect(resp.status).toBe(200);
 
